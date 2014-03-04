@@ -176,8 +176,6 @@
    */
   $.fn.gumi = function(options) {
     return this.each(function() {
-      var $self = $(this);
-
       if (!$.data(this, 'gumi')) {
         $.data(this, 'gumi', new Gumi(this, options));
       }
