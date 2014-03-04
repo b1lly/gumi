@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+  	<title>Gumi.js</title>
+  </head>
+  <body>
+    <select>
+      <option>First Option</option>
+      <option>Second Option</option>
+      <option>Third Option</option>
+    </select>
+
+    <ul class="gumi">
+      <li>First option</li>
+      <li>Second option</li>
+      <li>Third option</li>
+    </ul>
+
+    <script type="text/javascript" src="jquery.1.11.0.min.js"></script>
+    <script type="text/javascript" src="gumi.js"></script>
+    <script type="text/javascript">
+      $('.gumi').gumi({
+        onChange: function() {
+          console.log(this.$select.val());
+        }
+      });
+    </script>
+  </body>
+</html>
