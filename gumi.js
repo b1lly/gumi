@@ -19,7 +19,7 @@
 
     // Reference to the button that shows the current selected option
     // and also handles the click event to show the dropdown
-    this.$button = $('<button />');
+    this.$button = $('<span />');
 
     // Contains a reference to the dropdown list of options
     this.$dropdown = this.$elem.hide();
@@ -121,7 +121,6 @@
 
       this.$button.on('click.Gumi', function(e) {
         e.stopPropagation();
-
         that.$dropdown.toggle();
       });
 
@@ -139,10 +138,10 @@
     _bindSelectOption: function() {
       var that = this;
 
-      this.$elem.on('click.Gumi', 'li', function(e) {
+      that.$dropdown.on('click.Gumi', 'li', function(e) {
         e.stopPropagation();
-
         that.setSelectedOption($(this).index());
+        that.$dropdown.hide();
       })
     },
 
@@ -167,7 +166,7 @@
       this.$button.html('<span>' + this.selectedLabel + '</span>');
 
       // Trigger our custom callback
-      this.options.onChange.call(that);
+      this.options.onChange.call(this);
     },
   };
 
