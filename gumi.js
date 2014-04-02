@@ -163,6 +163,15 @@
     },
 
     /**
+     * Public interface to bind a custom change event handler
+     */
+    onChange: function(fn) {
+      if (typeof fn === 'function') {
+        this.options.onChange = fn;
+      }
+    },
+
+    /**
      * Sets the selected state to the native select box
      * based on the index. Also updates the instance and the label on the button
      * @param {number} opt_index Index of the select option to select (defaults 0)
