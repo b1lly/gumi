@@ -71,6 +71,7 @@
       // Copy some attributes over to our select
       this.$select
         .addClass(this.$elem.attr('class'))
+        .addClass(this.options.dropdownClass)
         .hide();
 
       // Add the list options to our select options
