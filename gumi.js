@@ -71,7 +71,7 @@
       this.$elem.find('li').each(function(index) {
         var $self = $(this);
 
-        var value = $self.html(),
+        var value = $self.data('value') || $self.html(),
             label = $self.data('label') || value;
 
         // Figure out which one should be selected by default
