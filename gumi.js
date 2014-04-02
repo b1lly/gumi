@@ -167,7 +167,7 @@
         .trigger('change.Gumi');
 
       this.selectedIndex = opt_index;
-      this.selectedLabel = $option.html();
+      this.selectedLabel = $option.data('label') || $option.text();
       this.selectedValue = $option.val();
 
       this.$button.html('<span>' + this.selectedLabel + '</span>');
