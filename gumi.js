@@ -70,7 +70,6 @@
 
       // Copy some attributes over to our select
       this.$select
-        .addClass(this.$elem.attr('class'))
         .addClass(this.options.dropdownClass)
         .hide();
 
@@ -82,7 +81,7 @@
             label = $self.data('label') || $self.html() || value;
 
         // Figure out which one should be selected by default
-        if ($self.hasClass('selected')) {
+        if ($self.data('selected') === true) {
           selectedIndex = index;
         }
 
@@ -107,7 +106,6 @@
      */
     _createDropdown: function() {
       this.$button
-        .html('<span>' + this.selectedLabel + '</span>')
         .addClass('gumi-btn')
         .addClass(this.options.buttonClass);
 
@@ -149,7 +147,7 @@
         e.stopPropagation();
         that.setSelectedOption($(this).index());
         that.$dropdown.hide();
-      })
+      });
     },
 
     /**
@@ -167,10 +165,10 @@
         .trigger('change.Gumi');
 
       this.selectedIndex = opt_index;
-      this.selectedLabel = $option.data('label') || $option.text();
+      this.selectedLabel = this.$dropdown.eq(opt_index).data('label') || $option.text();
       this.selectedValue = $option.val();
 
-      this.$button.html('<span>' + this.selectedLabel + '</span>');
+      this.$button.html('<span>' + this.selectedLabel + '<i class="icn arrow-down">&nbsp;</i></span>');
 
       // Trigger our custom callback
       this.options.onChange.call(this);
