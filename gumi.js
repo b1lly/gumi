@@ -78,7 +78,7 @@
         var $self = $(this);
 
         var value = $self.data('value') || $self.html(),
-            label = $self.data('label') || value;
+            label = $self.data('label') || $self.html() || value;
 
         // Figure out which one should be selected by default
         if ($self.hasClass('selected')) {
@@ -96,7 +96,7 @@
       this.setSelectedOption(selectedIndex);
 
       // Attach our native select to the DOM
-      this.$elem.after(this.$select);
+      this.$elem.append(this.$select);
     },
 
     /**
@@ -111,7 +111,7 @@
         .addClass(this.options.buttonClass);
 
       // Insert the button before the dropdown
-      this.$elem.before(this.$button);
+      this.$elem.prepend(this.$button);
 
       // Styling should hide the dropdown by default
       this.$dropdown
