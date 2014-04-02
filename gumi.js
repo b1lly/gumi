@@ -6,6 +6,7 @@
  ;(function($, window, document, undefined) {
   var defaults = {
     buttonClass: 'btn-default',
+    buttonSelectedClass: 'btn-selected',
     dropdownClass: 'dropdown-default',
     onChange: function() {},
   };
@@ -71,6 +72,7 @@
       // Copy some attributes over to our select
       this.$select
         .addClass(this.options.dropdownClass)
+        .attr('name', that.$button.data('name'))
         .hide();
 
       // Add the list options to our select options
@@ -125,13 +127,15 @@
       var that = this;
 
       this.$button.on('click.Gumi', function(e) {
+        e.preventDefault();
         e.stopPropagation();
+        that.$button.toggleClass(that.options.buttonSelectedClass);
         that.$dropdown.toggle();
       });
 
       $(document).on('click.Gumi', function(e) {
         if ($(e.target).closest(this.$dropdown).length === 0) {
-          that.$dropdown.hide();
+          that._hideDropdown();
         }
       });
     },
@@ -146,8 +150,16 @@
       that.$dropdown.on('click.Gumi', 'li', function(e) {
         e.stopPropagation();
         that.setSelectedOption($(this).index());
-        that.$dropdown.hide();
+        that._hideDropdown();
       });
+    },
+
+    /**
+     * Hides the dropdown and removes the selected state of the button
+     */
+    _hideDropdown: function() {
+      this.$button.removeClass(this.options.buttonSelectedClass);
+      this.$dropdown.hide();
     },
 
     /**
@@ -159,7 +171,6 @@
       opt_index = opt_index || 0;
 
       var $option = this.$select.find('option').eq(opt_index);
-
       $option
         .prop('selected', true)
         .trigger('change.Gumi');
