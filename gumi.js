@@ -22,7 +22,7 @@
     this.$button = $('<span />');
 
     // Contains a reference to the dropdown list of options
-    this.$dropdown = this.$elem.hide();
+    this.$dropdown = this.$elem.find('ul').hide();
 
     // Native form select element that gumi links too
     this.$select = $('<select />');
@@ -61,6 +61,12 @@
     _createSelect: function() {
       var that = this,
           selectedIndex = 0;
+
+      // Handle using a button that exists
+      var $button = this.$elem.find('button');
+      if ($button.length) {
+        this.$button = $button;
+      }
 
       // Copy some attributes over to our select
       this.$select
