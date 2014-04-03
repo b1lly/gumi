@@ -195,10 +195,14 @@
 
     /**
      * Public interface to bind a custom change event handler
+     * @param {string} event The event type to listen to
+     * @param {function} fn The function callback for the event
      */
-    onChange: function(fn) {
+    onEvent: function(event, fn) {
       if (typeof fn === 'function') {
-        this.options.onChange = fn;
+        if (this.options[event])
+          this.options[event] = fn;
+        }
       }
     },
 
