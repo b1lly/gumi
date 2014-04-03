@@ -9,6 +9,7 @@
     buttonSelectedClass: 'btn-selected',
     dropdownClass: 'dropdown-default',
     onChange: function() {},
+    onOpen: function() {}
   };
 
   /**
@@ -142,6 +143,10 @@
         // Handles clicking the button toggling
         that.$button.toggleClass(that.options.buttonSelectedClass);
         that.$dropdown.toggle();
+
+        if (that.$dropdown.is(':visible')) {
+          that.options.onOpen.call(that.$elem);
+        }
       });
 
       $(document).off('click.Gumi');
