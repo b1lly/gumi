@@ -198,10 +198,10 @@
      * @param {string} event The event type to listen to
      * @param {function} fn The function callback for the event
      */
-    onEvent: function(event, fn) {
+    onEvent: function(evt, fn) {
       if (typeof fn === 'function') {
-        if (this.options[event])
-          this.options[event] = fn;
+        if (this.options[evt]) {
+          this.options[evt] = fn;
         }
       }
     },
