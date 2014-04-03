@@ -17,6 +17,7 @@
   var Gumi = function(elem, options) {
     this.elem = elem;
     this.$elem = $(elem);
+    this.$elem.addClass('gumi-wrap');
 
     // Reference to the button that shows the current selected option
     // and also handles the click event to show the dropdown
@@ -133,13 +134,20 @@
       this.$button.on('click.Gumi', function(e) {
         e.preventDefault();
         e.stopPropagation();
+
+        // We want to reset all other dropdowns on the page
+        // to avoid having multiple dropdowns open at a time
+        that.resetDropdowns(that.$elem);
+
+        // Handles clicking the button toggling
         that.$button.toggleClass(that.options.buttonSelectedClass);
         that.$dropdown.toggle();
       });
 
+      $(document).off('click.Gumi');
       $(document).on('click.Gumi', function(e) {
-        if ($(e.target).closest(this.$dropdown).length === 0) {
-          that._hideDropdown();
+        if ($(e.target).closest('.gumi-dropdown').length === 0) {
+          that.resetDropdowns();
         }
       });
     },
@@ -152,18 +160,32 @@
       var that = this;
 
       that.$dropdown.on('click.Gumi', 'li', function(e) {
+        var $self = $(this);
         e.stopPropagation();
-        that.setSelectedOption($(this).index());
-        that._hideDropdown();
+
+        if (!$self.data('disabled')) {
+          that.setSelectedOption($(this).index());
+          that._closeDropdown();
+        }
       });
     },
 
     /**
      * Hides the dropdown and removes the selected state of the button
      */
-    _hideDropdown: function() {
+    _closeDropdown: function() {
       this.$button.removeClass(this.options.buttonSelectedClass);
       this.$dropdown.hide();
+    },
+
+    /**
+     * Resets all dropdowns on the page to default state, excluding callee
+     * @param {jQueryObject} opt_$elem Optional element to exclude from reset
+     */
+    resetDropdowns: function($elem) {
+      $('.gumi-wrap').not($elem).each(function() {
+        $(this).data('gumi')._closeDropdown();
+      });
     },
 
     /**
@@ -195,7 +217,7 @@
 
       if (this._load === false ||
           (this._load === true && !this.$button.data('default-value'))) {
-        this.$button.html('<span><em>' + this.selectedLabel + '<i class="icn arrow-down">&nbsp;</i></em></span>');
+        this.$button.html('<span><em>' + this.selectedLabel + '</em><i class="icn arrow-down">&nbsp;</i></span>');
 
         // Trigger our custom callback
         this.options.onChange.call(this.$select);
