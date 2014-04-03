@@ -34,6 +34,7 @@
 
     this.options = $.extend({}, defaults, options);
 
+    this._load = true;
     this._defaults = defaults;
 
     this._init();
@@ -72,7 +73,9 @@
       // Copy some attributes over to our select
       this.$select
         .addClass(this.options.dropdownClass)
+        .addClass(that.$button.data('class'))
         .attr('name', that.$button.data('name'))
+        .prop('required', that.$button.data('required'))
         .hide();
 
       // Add the list options to our select options
@@ -99,6 +102,7 @@
 
       // Attach our native select to the DOM
       this.$elem.append(this.$select);
+      this._load = false;
     },
 
     /**
@@ -180,18 +184,22 @@
       opt_index = opt_index || 0;
 
       var $option = this.$select.find('option').eq(opt_index);
-      $option
-        .prop('selected', true)
-        .trigger('change.Gumi');
 
       this.selectedIndex = opt_index;
       this.selectedLabel = this.$dropdown.eq(opt_index).data('label') || $option.text();
       this.selectedValue = $option.val();
 
-      this.$button.html('<span>' + this.selectedLabel + '<i class="icn arrow-down">&nbsp;</i></span>');
+      $option
+        .prop('selected', true)
+        .trigger('change');
 
-      // Trigger our custom callback
-      this.options.onChange.call(this);
+      if (this._load === false ||
+          (this._load === true && !this.$button.data('default-value'))) {
+        this.$button.html('<span><em>' + this.selectedLabel + '<i class="icn arrow-down">&nbsp;</i></em></span>');
+
+        // Trigger our custom callback
+        this.options.onChange.call(this.$select);
+      }
     },
   };
 
