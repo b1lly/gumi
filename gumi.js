@@ -59,6 +59,44 @@
     },
 
     /**
+     * Takes a serialized string of params and converts it to a map of data
+     * based on the data attribute 'params' on the button node
+     * e.g. { 'key' : 'val' }
+     */
+    _deserializeParams: function() {
+      var params = this.$button.data('params'),
+          data = {};
+
+      if (!params) {
+        return;
+      }
+
+      if (typeof params === 'string') {
+        params = params.split(' ');
+
+        var currentParam;
+        for (var i = 0, len = params.length; i < len; i ++) {
+          currentParam = params[i].split('=');
+          data[currentParam[0]] = currentParam[1]
+        }
+
+        console.log(data);
+
+        this._addDataToSelect(data);
+      }
+    },
+
+    /**
+     * Adds HTML5 Data attributes/values to the select
+     * @param {object} data Map of data key to data value e.g. { 'height': 300 }
+     */
+    _addDataToSelect: function(data) {
+      for (key in data) {
+        this.$select.data(key, data[key]);
+      }
+    },
+
+    /**
      * Creates a hidden "<select>" based on
      * the list items from the ul jQuery selector
      */
@@ -71,7 +109,6 @@
       if ($button.length) {
         this.$button = $button;
       }
-
       // Copy some attributes over to our select
       this.$select
         .addClass(this.options.dropdownClass)
@@ -79,6 +116,9 @@
         .attr('name', that.$button.data('name'))
         .prop('required', that.$button.data('required'))
         .hide();
+
+      // Add 'data' params to the select as HTML data-attributes
+      this._deserializeParams();
 
       // Add the list options to our select options
       this.$elem.find('li').each(function(index) {
