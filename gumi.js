@@ -80,8 +80,6 @@
           data[currentParam[0]] = currentParam[1]
         }
 
-        console.log(data);
-
         this._addDataToSelect(data);
       }
     },
