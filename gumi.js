@@ -1,6 +1,6 @@
 /**
  * Gumi v0.1
- * @usage $('sel').gumi()
+ * -> usage $('sel').gumi()
  */
 
  ;(function($, window, document, undefined) {
@@ -89,7 +89,7 @@
      * @param {object} data Map of data key to data value e.g. { 'height': 300 }
      */
     _addDataToSelect: function(data) {
-      for (key in data) {
+      for (var key in data) {
         this.$select.data(key, data[key]);
       }
     },
@@ -223,7 +223,7 @@
 
     /**
      * Resets all dropdowns on the page to default state, excluding callee
-     * @param {jQueryObject} opt_$elem Optional element to exclude from reset
+     * @param {jQueryObject} $elem Optional element to exclude from reset
      */
     resetDropdowns: function($elem) {
       $('.gumi-wrap').not($elem).each(function() {
@@ -233,7 +233,7 @@
 
     /**
      * Public interface to bind a custom change event handler
-     * @param {string} event The event type to listen to
+     * @param {string} evt The event type to listen to
      * @param {function} fn The function callback for the event
      */
     onEvent: function(evt, fn) {
@@ -269,7 +269,7 @@
         // Trigger our custom callback
         this.options.onChange.call(this.$select);
       }
-    },
+    }
   };
 
   /**
