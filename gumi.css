@@ -1,3 +1,11 @@
+.gumi {
+  display: inline-block;
+}
+
+.gumi ul {
+  display: none;
+}
+
 .gumi-btn {
 	display: inline-block;
 	background: #c0c0c0;
