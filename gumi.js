@@ -3,7 +3,7 @@
  * -> usage $('sel').gumi()
  */
 
- ;(function($, window, document, undefined) {
+;(function($, window, document, undefined) {
   var defaults = {
     buttonClass: 'btn-default',
     buttonSelectedClass: 'btn-selected',
@@ -77,7 +77,7 @@
         var currentParam;
         for (var i = 0, len = params.length; i < len; i ++) {
           currentParam = params[i].split('=');
-          data[currentParam[0]] = currentParam[1]
+          data[currentParam[0]] = currentParam[1];
         }
 
         this._addDataToSelect(data);
@@ -284,5 +284,5 @@
     });
   };
 
- })(jQuery, window, document);
+})(jQuery, window, document);
 
