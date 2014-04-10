@@ -5,18 +5,20 @@
     <link rel="stylesheet" type="text/css" href="gumi.css" />
   </head>
   <body>
-    <ul class="gumi">
-      <li>First option</li>
-      <li>Second option</li>
-      <li>Third option</li>
-    </ul>
+    <div class="gumi">
+      <ul>
+        <li data-value="1">First option</li>
+        <li data-value="2">Second option</li>
+        <li data-value="third">Third option</li>
+      </ul>
+    </div>
 
     <script type="text/javascript" src="jquery.1.11.0.min.js"></script>
     <script type="text/javascript" src="gumi.js"></script>
     <script type="text/javascript">
       $('.gumi').gumi({
         onChange: function() {
-          console.log(this.$select.val());
+          console.log(this.val());
         }
       });
     </script>
