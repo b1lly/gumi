@@ -124,9 +124,11 @@
       this.$elem.find('li').each(function(index) {
         var $self = $(this);
 
-        var value = $self.data('value') && $self.data('value').length === 0 ?
-            $self.html() : $self.data('value'),
-            label = $self.data('label') || $self.html() || value;
+        var value = $self.data('value');
+        if (!value) {
+          value = $self.html();
+        }
+        var label = $self.data('label') || $self.html() || value;
 
         // Figure out which one should be selected by default
         if ($self.data('selected') === true) {
