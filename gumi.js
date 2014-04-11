@@ -107,6 +107,7 @@
       if ($button.length) {
         this.$button = $button;
       }
+
       // Copy some attributes over to our select
       this.$select
         .addClass(this.options.dropdownClass)
@@ -129,6 +130,11 @@
         // Figure out which one should be selected by default
         if ($self.data('selected') === true) {
           selectedIndex = index;
+        }
+
+        // Only show options that are selectable
+        if ($self.data('selectable') === false) {
+          $self.hide();
         }
 
         $('<option />')
