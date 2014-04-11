@@ -7,6 +7,7 @@
   var defaults = {
     buttonClass: 'btn-default',
     buttonSelectedClass: 'btn-selected',
+    optionDisabledClass: 'option-disabled',
     dropdownClass: 'dropdown-default',
     onChange: function() {},
     onOpen: function() {}
@@ -130,6 +131,10 @@
         // Figure out which one should be selected by default
         if ($self.data('selected') === true) {
           selectedIndex = index;
+        }
+
+        if ($self.data('disabled') === true) {
+          $self.addClass(this.options.optionDisabledClass);
         }
 
         // Only show options that are selectable
