@@ -133,8 +133,9 @@
           selectedIndex = index;
         }
 
+        // Handle custom styling for disabled class
         if ($self.data('disabled') === true) {
-          $self.addClass(this.options.optionDisabledClass);
+          $self.addClass(that.options.optionDisabledClass);
         }
 
         // Only show options that are selectable
