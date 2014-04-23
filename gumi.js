@@ -122,10 +122,11 @@
 
       // Add the list options to our select options
       this.$elem.find('li').each(function(index) {
-        var $self = $(this);
+        var $self = $(this),
+            val = $self.data('value');		
 
-        var value = $self.data('value') && $self.data('value').length === 0 ?
-            $self.html() : $self.data('value'),
+        var value = val === undefined || (val.length === 0 && val !== '') ?
+            $self.html() : val,
             label = $self.data('label') || $self.html() || value;
 
         // Figure out which one should be selected by default
