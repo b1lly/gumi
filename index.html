@@ -1,109 +1,198 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset='utf-8'>
-		<meta http-equiv="X-UA-Compatible" content="chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-		<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-		<link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-		<link rel="stylesheet" href="stylesheets/highlight/default.css">
-		<script src="javascripts/highlight.pack.js"></script>
-		<script>
-			window.onload = function() {
-  		  hljs.configure({tabReplace: '  '}); // 4 spaces
-				hljs.initHighlightingOnLoad();
-			};
-		</script>
-		<!--[if lt IE 9]>
-		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="stylesheets/highlight/default.css">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
-		<title>Gumi by b1lly</title>
-	</head>
+    <title>Gumi by b1lly</title>
+  </head>
 
-	<body>
-		<header>
-			<div class="inner">
-				<h1>Gumi</h1>
-				<h2>Simple jQuery plugin for creating custom styled form select elements and dropdowns with CSS.</h2>
-				<a href="https://github.com/b1lly/gumi" class="button"><small>View project on</small>GitHub</a>
-			</div>
-		</header>
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Gumi</h1>
+        <h2>Simple jQuery plugin for creating custom styled form select elements and dropdowns with CSS.</h2>
+        <a href="https://github.com/b1lly/gumi" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-		<div id="content-wrapper">
-			<div class="inner clearfix">
-				<section id="main-content">
-					<h3>
-						<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages">
-							<span class="octicon octicon-link"></span>
-						</a>
-						Installation
-					</h3>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+            <a name="installation" class="anchor" href="#installation">
+              <span class="octicon octicon-link"></span>
+            </a>
+            Installation
+          </h3>
 
-					<p>Installing Gumi is relatively straight forward. Simply include the both the jQuery and Gumi library files e.g. jquery.gumi.min.js using script html element(s), like so:</p>
+          <p>Installing Gumi is relatively straight forward. Simply include both the jQuery and Gumi library files (e.g. jquery.gumi.min.js) using script html element(s), like so:</p>
 
-					<pre>
-						<code class="html">
-							<script type="text/javascript" src="/js/jquery.1.10.1.min.js"></script>
-							<script type="text/javascript" src="/js/jquery.gumi.min.js"></script>
-						</code>
-					</pre>
+<pre>
+<code class="html">
+&lt;link rel="stylesheet" type="text/css" href="/css/gumi.min.css">&lt;/link>
+&lt;script type="text/javascript" src="/js/jquery.gumi.min.js">&lt;/script>
+</code>
+</pre>
 
-					<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+          <h3>
+            <a name="html-structure" class="anchor" href="#html-structure">
+              <span class="octicon octicon-link"></span>
+            </a>
+            HTML Structure
+          </h3>
+          <p>Once created, all dropdowns have a common HTML structure, like so:</p>
+<pre>
+<code class="html">
+&lt;div class="gumi">
+  &lt;button>Please select an option&lt;/button>
+  &lt;ul>
+    &lt;li data-value="1">Option 1&lt;/li>
+    &lt;li data-value="2">Option 2&lt;/li>
+    &lt;li data-value="3">Option 3&lt;/li>
+  &lt;/ul>
+&lt;/div>
+</code>
+</pre>
 
-					<h3>
-						<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages">
-							<span class="octicon octicon-link"></span>
-						</a>
-						HTML Structure
-					</h3>
-					<p>Once created, all dropdowns have a common HTML structure in this form:</p>
-					<pre>
-						<code class="html">
-							<div class="gumi">
-								<button>Please select an option</button>
-								<ul>
-									<li>Option 1</li>
-									<li>Option 2</li>
-									<li>Option 3</li>
-								</ul>
-							</div>
-						</code>
-					</pre>
+          <h3>
+            <a name="initialize" class="anchor" href="#initialize">
+              <span class="octicon octicon-link"></span>
+            </a>
+            Simple Javascript Initialize
+          </h3>
 
-					<h3>
-					<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+          <p>After you have the HTML written, now you can initialize the plugin:</p>
+<pre>
+<code class="html javascript">
+&lt;script type="text/javascript">
+  $(function() {
+    $('.gumi').gumi();
+  });
+&lt;/script>
+</code>
+</pre>
 
-					<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+          <h3>
+            <a name="options" class="anchor" href="#options">
+              <span class="octicon octicon-link"></span>
+            </a>
+            Advanced Options
+          </h3>
+          <p>Gumi ships with a bunch of customizable options:</p>
 
-					<h3>
-					<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+          <table>
+            <tr>
+              <th colspan="2">Javascript Initization Options</th>
+            </tr>
+            <tr>
+              <td class="option"><code>buttonClass</code></td>
+              <td>Optional String value. Default value is <code>btn-default</code>. This class will get applied to all of the <code>button</code> elements during initialization.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>buttonSelectedClass</code></td>
+              <td>Optional String value. Default value is <code>btn-selected</code>. Gumi applies this class to the option that is selected in the list of options dropdown.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>optionDisabledClass</code></td>
+              <td>Optional String value. Default value is <code>option-disabled</code>. All <code>li</code> options that have the <code>data-disabled="true"</code> will have this class. Sometimes you may want disabled options to look a little different.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>dropdownClass</code></td>
+              <td>Optional String value. Default value is <code>dropdown-default</code>. Gumi will apply a unique class to your dropdown of options. All <code>ul</code> elements that wrap around the <code>li</code> options will have this class. </td>
+            </tr>
+            <tr>
+              <td class="option"><code>onChange</code></td>
+              <td>Optional <code>function</code> callback. A change event fires when the user selects an option from the dropdown. This provides a way to hook into that change event and write your own custom functionality.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>onOpen</code></td>
+              <td>Optional <code>function</code> callback. When the user clicks on the button to display the list of options, Gumi fires a custom onOpen event to hook into. This event fires just before the options are displayed.</td>
+            </tr>
+          </table>
+          <br>
+          <table>
+            <tr>
+              <th colspan="2">Data Attributes for the Button <code>button</code></th>
+            </tr>
+            <tr>
+              <td class="option"><code>data-name</code></td>
+              <td>Optional String value. This will name the <code>select</code> that is associated with your dropdown, giving you the flexibility of customizing the name of the <code>select</code> name that get's submitted with your form.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-class</code></td>
+              <td>Optional String value. Gumi will apply this class to the hidden <code>select</code> that is associated with your dropdown, in case you ever want to write some custom code to hook into it.</td>
+            </tr>
+          </table>
 
-					<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code><a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+          <br>
 
-					<h3>
-					<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+          <table>
+            <tr>
+              <th colspan="2">Data Attributes for Options <code>li</code></th>
+            </tr>
+            <tr>
+              <td class="option"><code>data-value</code></td>
+              <td>The value to be used for the form submit. If ommitted, Gumi will use the html string between the <code>li</code> tags</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-label</code></td>
+              <td>String value. Defaults to the <code>data-value</code>. Sometimes you want the display label of the option to be different then the option value that gets submitted with your form. You can achieve this by setting a data-label on the option.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-selected</code></td>
+              <td>Boolean value. Defaults to the <code>first option value</code> in the list. When used, Gumi will recognize the first occurence of the data-selected attribute as the default selected option. This gives you the flexibility to pre-set the default value.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-disabled</code></td>
+              <td>Boolean value. Default value is <code>false</code>. If the value is set to true, the option in the dropdown will be visible but won't be selectable.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-selectable</code></td>
+              <td>Boolean value. Default value is <code>false</code>. If the value is set to true, the option will not appear to the user as an option to select in the dropdown. This is generally used as a first item in a list of options to give the dropdown a unique call to action label (e.g. "Please Select An Option").</td>
+            </tr>
+          </table>
 
-					<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-				</section>
+          <h3>
+          <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-				<aside id="sidebar">
-					<a href="https://github.com/b1lly/gumi/zipball/master" class="button">
-						<small>Download</small>
-						.zip file
-					</a>
-					<a href="https://github.com/b1lly/gumi/tarball/master" class="button">
-						<small>Download</small>
-						.tar.gz file
-					</a>
+          <p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code><a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
 
-					<p class="repo-owner"><a href="https://github.com/b1lly/gumi"></a> is maintained by <a href="https://github.com/b1lly">b1lly</a>.</p>
+          <h3>
+          <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-					<p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-				</aside>
-			</div>
-		</div>
-	</body>
+          <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/b1lly/gumi/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/b1lly/gumi/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/b1lly/gumi"></a> is maintained by <a href="https://github.com/b1lly">b1lly</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+        <script src="javascripts/highlight.pack.js"></script>
+    <script>
+        hljs.configure({tabReplace: '  '}); // 4 spaces
+        hljs.initHighlightingOnLoad();
+    </script>
+  </body>
 </html>
