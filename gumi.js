@@ -127,8 +127,7 @@
         var $self = $(this),
             val = $self.data('value');
 
-        var value = val === undefined || (val.length === 0 && val !== '') ?
-            $self.html() : val,
+        var value = val === undefined && val !== '' ? $self.html() : val,
             label = $self.data('label') || $self.html() || value;
 
         // Figure out which one should be selected by default
