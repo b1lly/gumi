@@ -187,15 +187,110 @@ $('.gumi').gumi({
             <a name="initialize" class="anchor" href="#initialize">
               <span class="octicon octicon-link"></span>
             </a>
-            Dealing with Gumi Programmatically
+            Dealing with Gumi Programmatically through our API
           </h3>
 
-          <p>Somtimes you have multiple instances of Gumi on your page and you want an easy way to hook into one to extend it with some unique behaviors. Maybe you :</p>
+          <p>Somtimes you have multiple instances of Gumi on your page and you want an easy way to hook into one to extend it with some unique behaviors.</p>
+
+<pre>
+<code class="html">
+&lt;div class="gumi js-number-select">
+  &lt;button data-name="number">Please select a number&lt;/button>
+  &lt;ul>
+    &lt;li data-value="1">One&lt;/li>
+    &lt;li data-value="2">Two&lt;/li>
+    &lt;li data-value="3">Three&lt;/li>
+  &lt;/ul>
+&lt;/div>
+
+&lt;div class="gumi js-word-select">
+  &lt;button data-name="word">Please select word&lt;/button>
+  &lt;ul>
+    &lt;li data-value="gumi">Gumi&lt;/li>
+    &lt;li data-value="works">Works&lt;/li>
+    &lt;li data-value="great">Great&lt;/li>
+  &lt;/ul>
+&lt;/div>
+</code>
+</pre>
+
+<p>Notice the extra <code>class</code> on each of the wrapping <code>divs</code>? They are both unique class identifiers, so we can specifically target one of them to enhance. Something custom may look like this:</p>
+
+<pre>
+<code class="javascript">
+  // First, initialize gumi for all of our dropdowns
+  $('.gumi').gumi({
+    dropDownClass: 'sweet-dropdown-wrap'
+  });
+
+  // By calling .gumi() on a node that already has gumi initialized on it,
+  // you gain access to the Gumi public API methods for that particular node
+  var $numberSelect = $('.js-number-select').gumi();
+
+  // Now that we have access to Gumi's public API (noted below) for this node,
+  // let's customize it's interaction
+  $numberSelect.onEvent('onChange', function() {
+    alert('Wow, you just selected a number!');
+  });
+
+  // And we can do the same thing for the other one!
+  // Let's give the 'word selector' it's own little behavior as well
+  var $wordSelect = $('.js-word-select').gumi();
+
+  $wordSelect.onEvent('onOpen', function() {
+    alert('Customization is key, please choose a word!');
+  });
+
+  $wordSelect.onEvent('onChange', function() {
+    alert('Nice, my favorite word!');
+  });
+</code>
+</pre>
+
+<p>Voila! Not to shabby right? There are a bunch of Public API methods that you can use to make your life dealing with gumi a little easier. These methods include:</p>
+
+          <table>
+            <tr>
+              <th colspan="2">Gumi Public API Methods</th>
+            </tr>
+              <td class="option"><code>setSelected(value)</code></td>
+              <td>
+                Argument type(s): "value" <code>string</code>
+                <br><br>
+                Set the selected option based on it's value. If the option value does not exist, nothing will happen.
+              </td>
+            </tr>
+            <tr>
+              <td class="option"><code>setSelectedOption(index)</code></td>
+              <td>
+                Argument type(s): "index" <code>number</code>
+                <br><br>
+                Set's the selected option for the current instance of Gumi based on the <code>index</code> of the option in the list of options</td>
+            </tr>
+            <tr>
+              <td class="option"><code>onEvent(event, callback)</code></td>
+              <td>
+                Argument type(s): "event" <code>string</code>, "callback" <code>function</code>
+                <br>
+                Events supported: <code>onChange</code>, <code>onOpen</code>
+                <br><br>
+                Binds custom function call backs to certain events.
+              </td>
+            </tr>
+            <tr>
+              <td class="option"><code>closeDropdown()</code></td>
+              <td>This method will close the current dropdown.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>reset()</code></td>
+              <td>This method will reset Gumi's selected state (and value) to the initial state during the initialization</td>
+            <tr>
+          </table>
 
           <h3>
           <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-          <p>This plugin is written and maintained by Billy Bastardi (@b1lly).</p>
+          <p>This plugin is written and maintained by Billy Bastardi (<a href="http://github.com/b1lly/">@b1lly</a>).</p>
 
           <h3>
           <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
