@@ -35,7 +35,7 @@
             Installation
           </h3>
 
-          <p>Installing Gumi is relatively straight forward. Simply include both the jQuery and Gumi library files (e.g. jquery.gumi.min.js) using script html element(s), like so:</p>
+          <p>Installing Gumi is relatively straight forward. Gumi depends on jQuery, so make sure you have that included on your page first. Once that's done, simply include both the Gumi library files (e.g. jquery.gumi.min.js and gumi.min.css) like so:</p>
 
 <pre>
 <code class="html">
@@ -50,7 +50,7 @@
             </a>
             HTML Structure
           </h3>
-          <p>Once created, all dropdowns have a common HTML structure, like so:</p>
+          <p>Once created, all of your dropdowns have a common HTML structure, like so:</p>
 <pre>
 <code class="html">
 &lt;div class="gumi">
@@ -64,11 +64,61 @@
 </code>
 </pre>
 
+
+          <p>Notice the <code>data-value</code> attributes on the options? To give you some flexability, Gumi provides a simple and clean interface in order to handle customization of your dropdown straight from the markup. You can apply these attributes directly to the HTML tags themself. Most of the options are based on the <code>native select</code> conventions to keep things simple.
+          </p>
+
+          <table>
+            <tr>
+              <th colspan="2">Data Attributes for the Button <code>button</code></th>
+            </tr>
+            <tr>
+              <td class="option"><code>data-name</code></td>
+              <td>Optional String value. This will name the <code>select</code> that is associated with your dropdown, giving you the flexibility of customizing the name of the <code>select</code> that get's submitted with your form.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-class</code></td>
+              <td>Optional String value. Gumi will apply this class to the hidden <code>select</code> that is associated with your dropdown, in case you ever want to write some custom code to hook into it.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-required</code></td>
+              <td>Optional Boolean value, defaults to <code>false</code>. Gumi will add the "required" attribute to the <code>select</code> that is associated with your dropdown.</td>
+            </tr>
+          </table>
+
+          <br>
+
+          <table>
+            <tr>
+              <th colspan="2">Data Attributes for the Options <code>li</code></th>
+            </tr>
+            <tr>
+              <td class="option"><code>data-value</code></td>
+              <td>The value to be used for the form submit. If ommitted, Gumi will use the html string between the <code>li</code> tags</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-label</code></td>
+              <td>String value. Defaults to the <code>data-value</code>. Sometimes you want the display label of the option to be different from the option value that gets submitted with your form. You can achieve this by setting a data-label on the option.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-selected</code></td>
+              <td>Boolean value. Defaults to the <code>first option value</code> in the list of options. When used, Gumi will recognize the first occurence of the data-selected attribute as the default selected option. This gives you the flexibility to pre-set the default value to any option you want.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-disabled</code></td>
+              <td>Boolean value. Default value is <code>false</code>. If the value is set to true, the option in the dropdown will be visible but won't be selectable.</td>
+            </tr>
+            <tr>
+              <td class="option"><code>data-selectable</code></td>
+              <td>Boolean value. Default value is <code>true</code>. If the value is set to false, the option will not appear to the user as an option to select in the dropdown. This is generally used as the first item in the list of options to give the dropdown a unique call to action label (e.g. "Please Select An Option").</td>
+            </tr>
+          </table>
+
           <h3>
             <a name="initialize" class="anchor" href="#initialize">
               <span class="octicon octicon-link"></span>
             </a>
-            Simple Javascript Initialize
+            Simple Javascript Initialization
           </h3>
 
           <p>After you have the HTML written, now you can initialize the plugin:</p>
@@ -83,12 +133,24 @@
 </pre>
 
           <h3>
-            <a name="options" class="anchor" href="#options">
+            <a name="initialize" class="anchor" href="#initialize">
               <span class="octicon octicon-link"></span>
             </a>
-            Advanced Options
+            Advanced Javascript Initialization
           </h3>
-          <p>Gumi ships with a bunch of customizable options:</p>
+
+          <p>Gumi ships with a bunch of customizable options. You can do this by passing an object into the <code>gumi() function</code> as an argument. You can specify as many options as you'd like:</p>
+
+<pre>
+<code class="javascript">
+$('.gumi').gumi({
+  buttonClass: 'btn btn-blue',
+  onChange: function() {
+    alert('You selected option: ' + this.val())
+  }
+});
+</code>
+</pre>
 
           <table>
             <tr>
@@ -96,7 +158,7 @@
             </tr>
             <tr>
               <td class="option"><code>buttonClass</code></td>
-              <td>Optional String value. Default value is <code>btn-default</code>. This class will get applied to all of the <code>button</code> elements during initialization.</td>
+              <td>Optional String value. Default value is <code>btn-default</code>. This class will get applied to all of the <code>button</code> elements during initialization. You can apply multiple classes by separating each unique class with a space.</td>
             </tr>
             <tr>
               <td class="option"><code>buttonSelectedClass</code></td>
@@ -104,7 +166,7 @@
             </tr>
             <tr>
               <td class="option"><code>optionDisabledClass</code></td>
-              <td>Optional String value. Default value is <code>option-disabled</code>. All <code>li</code> options that have the <code>data-disabled="true"</code> will have this class. Sometimes you may want disabled options to look a little different.</td>
+              <td>Optional String value. Default value is <code>option-disabled</code>. All <code>li</code> elements that have the <code>data-disabled="true"</code> will have this class applied to them. This provides a way to style the disabled options looks and feel.</td>
             </tr>
             <tr>
               <td class="option"><code>dropdownClass</code></td>
@@ -112,65 +174,33 @@
             </tr>
             <tr>
               <td class="option"><code>onChange</code></td>
-              <td>Optional <code>function</code> callback. A change event fires when the user selects an option from the dropdown. This provides a way to hook into that change event and write your own custom functionality.</td>
+              <td>Optional <code>function</code> callback. A change event fires when the user selects an option from the dropdown. This provides a simple way to hook into the change event and write your own custom functionality. Your callback will inherit the context of the drop down that is being interacted with. Hence, <code>this</code> in your function will refer to the hidden HTML <code>select</code> element that changed.</td>
             </tr>
             <tr>
               <td class="option"><code>onOpen</code></td>
-              <td>Optional <code>function</code> callback. When the user clicks on the button to display the list of options, Gumi fires a custom onOpen event to hook into. This event fires just before the options are displayed.</td>
+              <td>Optional <code>function</code> callback. When the user clicks on the button to display the list of options, Gumi fires a custom onOpen event to hook into. This event fires just before the options are displayed. Your callback will inherit the context of the drop down that is being interacted with. Hence, <code>this</code> in your function will refer to the hidden HTML <code>select</code>that changed.</td>
             </tr>
           </table>
           <br>
-          <table>
-            <tr>
-              <th colspan="2">Data Attributes for the Button <code>button</code></th>
-            </tr>
-            <tr>
-              <td class="option"><code>data-name</code></td>
-              <td>Optional String value. This will name the <code>select</code> that is associated with your dropdown, giving you the flexibility of customizing the name of the <code>select</code> name that get's submitted with your form.</td>
-            </tr>
-            <tr>
-              <td class="option"><code>data-class</code></td>
-              <td>Optional String value. Gumi will apply this class to the hidden <code>select</code> that is associated with your dropdown, in case you ever want to write some custom code to hook into it.</td>
-            </tr>
-          </table>
 
-          <br>
+          <h3>
+            <a name="initialize" class="anchor" href="#initialize">
+              <span class="octicon octicon-link"></span>
+            </a>
+            Dealing with Gumi Programmatically
+          </h3>
 
-          <table>
-            <tr>
-              <th colspan="2">Data Attributes for Options <code>li</code></th>
-            </tr>
-            <tr>
-              <td class="option"><code>data-value</code></td>
-              <td>The value to be used for the form submit. If ommitted, Gumi will use the html string between the <code>li</code> tags</td>
-            </tr>
-            <tr>
-              <td class="option"><code>data-label</code></td>
-              <td>String value. Defaults to the <code>data-value</code>. Sometimes you want the display label of the option to be different then the option value that gets submitted with your form. You can achieve this by setting a data-label on the option.</td>
-            </tr>
-            <tr>
-              <td class="option"><code>data-selected</code></td>
-              <td>Boolean value. Defaults to the <code>first option value</code> in the list. When used, Gumi will recognize the first occurence of the data-selected attribute as the default selected option. This gives you the flexibility to pre-set the default value.</td>
-            </tr>
-            <tr>
-              <td class="option"><code>data-disabled</code></td>
-              <td>Boolean value. Default value is <code>false</code>. If the value is set to true, the option in the dropdown will be visible but won't be selectable.</td>
-            </tr>
-            <tr>
-              <td class="option"><code>data-selectable</code></td>
-              <td>Boolean value. Default value is <code>false</code>. If the value is set to true, the option will not appear to the user as an option to select in the dropdown. This is generally used as a first item in a list of options to give the dropdown a unique call to action label (e.g. "Please Select An Option").</td>
-            </tr>
-          </table>
+          <p>Somtimes you have multiple instances of Gumi on your page and you want an easy way to hook into one to extend it with some unique behaviors. Maybe you :</p>
 
           <h3>
           <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-          <p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code><a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+          <p>This plugin is written and maintained by Billy Bastardi (@b1lly).</p>
 
           <h3>
           <a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
 
-          <p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+          <p>Having trouble with Gumi? Maybe your problem has already been solved! Check out the known issues at <a href="https://github.com/b1lly/gumi/issues">https://github.com/b1lly/gumi/issues</a>. If not, feel free to file a new issue.</p>
         </section>
 
         <aside id="sidebar">
@@ -189,7 +219,8 @@
         </aside>
       </div>
     </div>
-        <script src="javascripts/highlight.pack.js"></script>
+
+   <script src="javascripts/highlight.pack.js"></script>
     <script>
         hljs.configure({tabReplace: '  '}); // 4 spaces
         hljs.initHighlightingOnLoad();
