@@ -1,6 +1,7 @@
 /**
  * Gumi v0.1
- * -> usage $('sel').gumi()
+ * Usage: http://b1lly.github.io/gumi
+ * GitHub: http://github.com/b1lly/gumi
  */
 
 ;(function($, window, document, undefined) {
@@ -39,6 +40,7 @@
 
     this._load = true;
     this._defaults = defaults;
+    this._initialSelected = undefined;
 
     this._init();
   };
@@ -123,7 +125,7 @@
       // Add the list options to our select options
       this.$elem.find('li').each(function(index) {
         var $self = $(this),
-            val = $self.data('value');		
+            val = $self.data('value');
 
         var value = val === undefined || (val.length === 0 && val !== '') ?
             $self.html() : val,
@@ -156,6 +158,8 @@
 
       // Attach our native select to the DOM
       this.$elem.append(this.$select);
+
+      this.initialSelected = selectedIndex;
       this._load = false;
     },
 
@@ -190,7 +194,7 @@
 
         // We want to reset all other dropdowns on the page
         // to avoid having multiple dropdowns open at a time
-        that.resetDropdowns(that.$elem);
+        that._resetDropdowns(that.$elem);
 
         // Handles clicking the button toggling
         that.$button.toggleClass(that.options.buttonSelectedClass);
@@ -204,7 +208,7 @@
       $(document).off('click.Gumi');
       $(document).on('click.Gumi', function(e) {
         if ($(e.target).closest('.gumi-dropdown').length === 0) {
-          that.resetDropdowns();
+          that._resetDropdowns();
         }
       });
     },
@@ -222,39 +226,30 @@
 
         if (!$self.data('disabled')) {
           that.setSelectedOption($(this).index());
-          that._closeDropdown();
+          that.closeDropdown();
         }
       });
-    },
-
-    /**
-     * Hides the dropdown and removes the selected state of the button
-     */
-    _closeDropdown: function() {
-      this.$button.removeClass(this.options.buttonSelectedClass);
-      this.$dropdown.hide();
     },
 
     /**
      * Resets all dropdowns on the page to default state, excluding callee
      * @param {jQueryObject} $elem Optional element to exclude from reset
      */
-    resetDropdowns: function($elem) {
+    _resetDropdowns: function($elem) {
       $('.gumi-wrap').not($elem).each(function() {
-        $(this).data('gumi')._closeDropdown();
+        $(this).data('gumi').closeDropdown();
       });
     },
 
     /**
-     * Public interface to bind a custom change event handler
-     * @param {string} evt The event type to listen to
-     * @param {function} fn The function callback for the event
+     * Set the selected option based on it's value
+     * @param {string|number|boolean} value The value of the option to look for in our list
      */
-    onEvent: function(evt, fn) {
-      if (typeof fn === 'function') {
-        if (this.options[evt]) {
-          this.options[evt] = fn;
-        }
+    setSelected: function(value) {
+      var $option = this.setSelectedOption(this.$select.find('option[value="' + value + '"]'));
+
+      if ($option.length) {
+        setSelectedOption($option.index());
       }
     },
 
@@ -283,6 +278,34 @@
         // Trigger our custom callback
         this.options.onChange.call(this.$select);
       }
+    },
+
+    /**
+     * Public interface to bind a custom change event handler
+     * @param {string} evt The event type to listen to
+     * @param {function} fn The function callback for the event
+     */
+    onEvent: function(evt, fn) {
+      if (typeof fn === 'function') {
+        if (this.options[evt]) {
+          this.options[evt] = fn;
+        }
+      }
+    },
+
+    /**
+     * Hides the dropdown and removes the selected state of the button
+     */
+    closeDropdown: function() {
+      this.$button.removeClass(this.options.buttonSelectedClass);
+      this.$dropdown.hide();
+    },
+
+    /**
+     * Resets the dropdown to it's original state during initialization
+     */
+    reset: function() {
+      this.setSelectedOption(this._initialSelected);
     }
   };
 
@@ -291,8 +314,18 @@
    */
   $.fn.gumi = function(options) {
     return this.each(function() {
-      if (!$.data(this, 'gumi')) {
+      var gumi = $.data(this, 'gumi');
+
+      if (!gumi) {
         $.data(this, 'gumi', new Gumi(this, options));
+      } else {
+        return {
+          setSelected: gumi.setSelected,
+          setSelectedOption: gumi.setSelectedOption,
+          onEvent: gumi.onEvent,
+          closeDropdown: gumi.closeDropdown,
+          reset: gumi.reset
+        }
       }
     });
   };
