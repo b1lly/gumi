@@ -1,7 +1,7 @@
 gumi
 ====
 
-Simple jQuery plugin for creating custom styled form select elements with CSS.
+Simple jQuery plugin for creating custom styled drop-downs and form select elements with CSS.
 
 
 ## Usage Documentation
