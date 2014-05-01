@@ -9,7 +9,7 @@ Simple jQuery plugin for creating custom styled drop-downs and form select eleme
 To use gumi in your project, please check out the `dist` directory and visit
 our documentation site below:
 
-	http://b1lly.github.io/gumi
+http://b1lly.github.io/gumi
 
 ## What you need to build Gumi
 
