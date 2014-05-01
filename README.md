@@ -11,10 +11,7 @@ our documentation site below:
 
 	http://b1lly.github.io/gumi
 
-## Developers
-
-What you need to build Gumi
---------------------------------------
+## What you need to build Gumi
 
 In order to build and contribute to Gumi, you need to have Node.js/npm latest and git 1.7 or later.
 (Earlier versions might work OK, but are not tested.)
@@ -28,8 +25,7 @@ Linux/BSD users should use their appropriate package managers to install git and
 if you swing that way. Easy-peasy.
 
 
-How to build and minify your own Gumi
---------------------------------------
+## How to build and minify your own Gumi
 
 Clone a copy of the main Gumi git repo by running:
 
