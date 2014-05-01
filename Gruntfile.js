@@ -6,8 +6,8 @@ module.exports = function( grunt ) {
 
     uglify: {
       build: {
-        src: 'src/grunt.js',
-        dest: 'dist/grunt.min.js'
+        src: 'src/gumi.js',
+        dest: 'dist/gumi.min.js'
       },
       options: {
         compress: {
@@ -27,7 +27,7 @@ module.exports = function( grunt ) {
         expand: true,
         cwd: 'src/',
         src: ['*.css', '!*.min.css'],
-        dest: 'dist/css/',
+        dest: 'dist/',
         ext: '.min.css'
       }
     },
@@ -57,5 +57,5 @@ module.exports = function( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Default grunt
-  grunt.registerTask('default', ['cssmin', 'uglify', 'copy']);
+  grunt.registerTask('default', ['uglify', 'cssmin', 'copy']);
 };
