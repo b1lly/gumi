@@ -1,0 +1,31 @@
+{
+  "name": "gumi",
+  "title": "Gumi for jQuery",
+  "description": "Simple jQuery plugin for creating custom styled form select elements with CSS.",
+  "version": "1.0.0",
+  "homepage": "http://b1lly.github.io/gumi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/b1lly/gumi.git"
+  },
+  "bugs": {
+    "url": "http://github.com/b1lly/gumi"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/grunt"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-cssmin": "~0.9.0",
+    "grunt": "~0.4.4",
+    "grunt-contrib-copy": "~0.5.0"
+  },
+  "keywords": [],
+  "main": "Gruntfile.js",
+  "directories": {
+    "example": "example"
+  },
+  "author": "Billy Bastardi <billy@wabism.com>",
+  "license": "BSD-2-Clause"
+}

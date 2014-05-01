@@ -1,0 +1,43 @@
+.gumi {
+  display: inline-block;
+}
+
+.gumi ul {
+  display: none;
+}
+
+.gumi-btn {
+	display: inline-block;
+	background: #c0c0c0;
+	border-radius: 4px;
+	padding: 8px 15px;
+	color: #333;
+  cursor: pointer;
+}
+
+.gumi-btn:hover {
+  opacity: .8;
+}
+
+.gumi-dropdown {
+  position: absolute;
+  width: 200px;
+  list-style-type: none;
+  border: 1px #c0c0c0 solid;
+  margin: 0;
+  padding: 0;
+}
+
+.gumi-dropdown li {
+  border-bottom: 1px #c0c0c0 solid;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.gumi-dropdown li:last-child {
+  border-bottom: 0;
+}
+
+.gumi-dropdown li:hover {
+  background-color: #f9f9f9;
+}
