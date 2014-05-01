@@ -37,14 +37,14 @@ module.exports = function( grunt ) {
         files: [
           {
             expand: true,
-            src: ['src/stylesheets/*'],
+            src: ['src/*'],
             dest: 'dist/',
             flatten: true
           },
           {
             expand: true,
-            src: ['src/*.html'],
-            dest: 'dist/',
+            src: ['dist/*.min.*'],
+            dest: 'example/',
             flatten: true
           }
         ]
