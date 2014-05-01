@@ -127,7 +127,7 @@
         var $self = $(this),
             val = $self.data('value');
 
-        var value = val === undefined && val !== '' ? $self.html() : val,
+        var value = val === undefined && val !== '' ? $self.html() : String(val),
             label = $self.data('label') || $self.html() || value;
 
         // Figure out which one should be selected by default
@@ -245,10 +245,10 @@
      * @param {string|number|boolean} value The value of the option to look for in our list
      */
     setSelected: function(value) {
-      var $option = this.setSelectedOption(this.$select.find('option[value="' + value + '"]'));
+      var $option = this.$select.find('option[value="' + value + '"]');
 
       if ($option.length) {
-        setSelectedOption($option.index());
+        this.setSelectedOption($option.index());
       }
     },
 
@@ -317,14 +317,6 @@
 
       if (!gumi) {
         $.data(this, 'gumi', new Gumi(this, options));
-      } else {
-        return {
-          setSelected: gumi.setSelected,
-          setSelectedOption: gumi.setSelectedOption,
-          onEvent: gumi.onEvent,
-          closeDropdown: gumi.closeDropdown,
-          reset: gumi.reset
-        }
       }
     });
   };
