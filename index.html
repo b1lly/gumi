@@ -223,25 +223,25 @@ $('.gumi').gumi({
     dropDownClass: 'sweet-dropdown-wrap'
   });
 
-  // By calling .gumi() on a node that already has gumi initialized on it,
+  // By calling .data('gumi') on a node that already has gumi initialized on it,
   // you gain access to the Gumi public API methods for that particular node
-  var $numberSelect = $('.js-number-select').gumi();
+  var numberSelect = $('.js-number-select').data('gumi');
 
   // Now that we have access to Gumi's public API (noted below) for this node,
   // let's customize it's interaction
-  $numberSelect.onEvent('onChange', function() {
+  numberSelect.onEvent('onChange', function() {
     alert('Wow, you just selected a number!');
   });
 
   // And we can do the same thing for the other one!
   // Let's give the 'word selector' it's own little behavior as well
-  var $wordSelect = $('.js-word-select').gumi();
+  var wordSelect = $('.js-word-select').data('gumi');
 
-  $wordSelect.onEvent('onOpen', function() {
+  wordSelect.onEvent('onOpen', function() {
     alert('Customization is key, please choose a word!');
   });
 
-  $wordSelect.onEvent('onChange', function() {
+  wordSelect.onEvent('onChange', function() {
     alert('Nice, my favorite word!');
   });
 </code>
