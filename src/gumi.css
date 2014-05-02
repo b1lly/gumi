@@ -7,41 +7,71 @@
 }
 
 .gumi-btn {
-	display: inline-block;
-	background: #c0c0c0;
-	border-radius: 5px;
-	padding: 8px 15px;
-  font-family: verdana;
-  border: 0;
-  border-bottom: 3px #999 solid;
-	color: #333;
+  display: inline-block;
   cursor: pointer;
-}
-
-.gumi-btn:hover {
-  opacity: .8;
+  outline: none;
 }
 
 .gumi-dropdown {
   position: absolute;
   width: 200px;
   list-style-type: none;
-  border: 1px #c0c0c0 solid;
-  border-radius: 4px;
-  margin: 0;
+  margin: 0 0 0 2px;
   padding: 0;
 }
 
-.gumi-dropdown li {
-  border-bottom: 1px #c0c0c0 solid;
-  padding: 10px;
-  cursor: pointer;
+/**
+ * Default button styling
+ */
+.gumi-btn-default {
+  background: #c0c0c0;
+  border: 0;
+  border-radius: 4px;
+  border-bottom: 3px #999 solid;
+  padding: 8px 15px;
+  color: #5c5c5c;
+  transition:  .2s;
+  -webkit-transition:  .2s;
 }
 
-.gumi-dropdown li:last-child {
+.gumi-btn-default.gumi-btn-selected,
+.gumi-btn-default.gumi-btn-selected:hover {
+  background-color: #999;
+  color: #fff;
+  transition: 0;
+  -webkit-transition: 0;
+}
+
+.gumi-btn-default em {
+  font-style: normal;
+}
+
+.gumi-btn-default:hover {
+  background-color: #b4b4b4;
+}
+
+.gumi-dropdown-default {
+  font-size: 11px;
+  font-family: verdana;
+  color: #696969;
+
+  box-shadow: 0px 3px 10px #e9e9e9;
+  border: 1px #e0e0e0 solid;
+  border-radius: 2px;
+}
+
+.gumi-dropdown-default li {
+  border-bottom: 1px #e0e0e0 solid;
+  padding: 8px;
+  cursor: pointer;
+  transition:  .2s;
+  -webkit-transition:  .2s;
+}
+
+.gumi-dropdown-default li:last-child {
   border-bottom: 0;
 }
 
-.gumi-dropdown li:hover {
-  background-color: #f9f9f9;
+.gumi-dropdown-default li:hover {
+  background-color: #f0f0f0;
 }

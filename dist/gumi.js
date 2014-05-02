@@ -1,15 +1,15 @@
 /**
- * Gumi v0.1
+ * Gumi v1.0
  * Usage: http://b1lly.github.io/gumi
  * GitHub: http://github.com/b1lly/gumi
  */
 
 ;(function($, window, document, undefined) {
   var defaults = {
-    buttonClass: 'btn-default',
-    buttonSelectedClass: 'btn-selected',
-    optionDisabledClass: 'option-disabled',
-    dropdownClass: 'dropdown-default',
+    buttonClass: 'gumi-btn-default',
+    buttonSelectedClass: 'gumi-btn-selected',
+    optionDisabledClass: 'gumi-option-disabled',
+    dropdownClass: 'gumi-dropdown-default',
     onChange: function() {},
     onOpen: function() {}
   };
