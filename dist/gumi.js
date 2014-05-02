@@ -62,42 +62,6 @@
     },
 
     /**
-     * Takes a serialized string of params and converts it to a map of data
-     * based on the data attribute 'params' on the button node
-     * e.g. { 'key' : 'val' }
-     */
-    _deserializeParams: function() {
-      var params = this.$button.data('params'),
-          data = {};
-
-      if (!params) {
-        return;
-      }
-
-      if (typeof params === 'string') {
-        params = params.split(' ');
-
-        var currentParam;
-        for (var i = 0, len = params.length; i < len; i ++) {
-          currentParam = params[i].split('=');
-          data[currentParam[0]] = currentParam[1];
-        }
-
-        this._addDataToSelect(data);
-      }
-    },
-
-    /**
-     * Adds HTML5 Data attributes/values to the select
-     * @param {object} data Map of data key to data value e.g. { 'height': 300 }
-     */
-    _addDataToSelect: function(data) {
-      for (var key in data) {
-        this.$select.data(key, data[key]);
-      }
-    },
-
-    /**
      * Creates a hidden "<select>" based on
      * the list items from the ul jQuery selector
      */
@@ -238,6 +202,42 @@
       $('.gumi-wrap').not($elem).each(function() {
         $(this).data('gumi').closeDropdown();
       });
+    },
+
+    /**
+     * Takes a serialized string of params and converts it to a map of data
+     * based on the data attribute 'params' on the button node
+     * e.g. { 'key' : 'val' }
+     */
+    _deserializeParams: function() {
+      var params = this.$button.data('params'),
+          data = {};
+
+      if (!params) {
+        return;
+      }
+
+      if (typeof params === 'string') {
+        params = params.split(' ');
+
+        var currentParam;
+        for (var i = 0, len = params.length; i < len; i ++) {
+          currentParam = params[i].split('=');
+          data[currentParam[0]] = currentParam[1];
+        }
+
+        this._addDataToSelect(data);
+      }
+    },
+
+    /**
+     * Adds HTML5 Data attributes/values to the select
+     * @param {object} data Map of data key to data value e.g. { 'height': 300 }
+     */
+    _addDataToSelect: function(data) {
+      for (var key in data) {
+        this.$select.data(key, data[key]);
+      }
     },
 
     /**
