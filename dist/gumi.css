@@ -9,8 +9,11 @@
 .gumi-btn {
 	display: inline-block;
 	background: #c0c0c0;
-	border-radius: 4px;
+	border-radius: 5px;
 	padding: 8px 15px;
+  font-family: verdana;
+  border: 0;
+  border-bottom: 3px #999 solid;
 	color: #333;
   cursor: pointer;
 }
@@ -24,6 +27,7 @@
   width: 200px;
   list-style-type: none;
   border: 1px #c0c0c0 solid;
+  border-radius: 4px;
   margin: 0;
   padding: 0;
 }

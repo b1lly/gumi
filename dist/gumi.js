@@ -24,7 +24,7 @@
 
     // Reference to the button that shows the current selected option
     // and also handles the click event to show the dropdown
-    this.$button = $('<span />');
+    this.$button = $('<button />');
 
     // Contains a reference to the dropdown list of options
     this.$dropdown = this.$elem.find('ul').hide();
@@ -320,6 +320,4 @@
       }
     });
   };
-
 })(jQuery, window, document);
-

@@ -49,9 +49,20 @@ module.exports = function( grunt ) {
           }
         ]
       }
-    }
+    },
+
+    watch: {
+      scripts: {
+        files: ['src/*'],
+        tasks: ['default'],
+        options: {
+          spawn: false,
+        },
+      },
+    },
   });
 
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
