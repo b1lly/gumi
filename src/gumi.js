@@ -334,7 +334,7 @@
         // Otherwise, access our public API (if viable)
         if (typeof options === 'string' &&
             typeof gumi[options] === 'function') {
-          gumi[options].apply(gumi, Array.prototype.slice.call(args, 1))
+          gumi[options].apply(gumi, Array.prototype.slice.call(args, 1));
         }
       }
     });
