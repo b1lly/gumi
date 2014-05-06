@@ -1,5 +1,5 @@
 /**
- * Gumi v1.0
+ * Gumi v1.0.0
  * Usage: http://b1lly.github.io/gumi
  * GitHub: http://github.com/b1lly/gumi
  */
@@ -241,6 +241,15 @@
     },
 
     /**
+     * Sync the markup with the hidden select
+     */
+    update: function() {
+      this.$elem.find('select').remove();
+      this.$select = $('<select />');
+      this._createSelect();
+    },
+
+    /**
      * Set the selected option based on it's value
      * @param {string|number|boolean} value The value of the option to look for in our list
      */
@@ -312,11 +321,21 @@
    * Simple jQuery API for Gumi
    */
   $.fn.gumi = function(options) {
+    var args = arguments;
+
     return this.each(function() {
+      // Tries to get the instance of gumi that is referenced by the node
       var gumi = $.data(this, 'gumi');
 
+      // If there's no gumi instance, assume we're initializing
       if (!gumi) {
         $.data(this, 'gumi', new Gumi(this, options));
+      } else {
+        // Otherwise, access our public API (if viable)
+        if (typeof options === 'string' &&
+            typeof gumi[options] === 'function') {
+          gumi[options].apply(gumi, Array.prototype.slice.call(args, 1))
+        }
       }
     });
   };
