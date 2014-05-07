@@ -1,5 +1,5 @@
 /**
- * Gumi v1.0.0
+ * Gumi v1.0.1
  * Usage: http://b1lly.github.io/gumi
  * GitHub: http://github.com/b1lly/gumi
  */
@@ -67,7 +67,7 @@
      */
     _createSelect: function() {
       var that = this,
-          selectedIndex = 0;
+          selectedIndex;
 
       // Handle using a button that exists
       var $button = this.$elem.find('button');
@@ -75,12 +75,31 @@
         this.$button = $button;
       }
 
+      // Adds the properties and options to our select
+      // and get the selectedIndex from the option parsing
+      selectedIndex = this._updateSelect();
+
+      // Attach our native select to the DOM
+      this.$elem.append(this.$select);
+
+      this.initialSelected = selectedIndex;
+      this._load = false;
+    },
+
+    /**
+     * Updates the "<select>" properties, options and values
+     * based on the current list of options from the "<ul>"
+     */
+    _updateSelect: function() {
+      var that = this,
+          selectedIndex = 0;
+
       // Copy some attributes over to our select
       this.$select
         .addClass(this.options.dropdownClass)
-        .addClass(that.$button.data('class'))
-        .attr('name', that.$button.data('name'))
-        .prop('required', that.$button.data('required'))
+        .addClass(this.$button.data('class'))
+        .attr('name', this.$button.data('name'))
+        .prop('required', this.$button.data('required'))
         .hide();
 
       // Add 'data' params to the select as HTML data-attributes
@@ -119,11 +138,7 @@
       // Set the default option
       this.setSelectedOption(selectedIndex);
 
-      // Attach our native select to the DOM
-      this.$elem.append(this.$select);
-
-      this.initialSelected = selectedIndex;
-      this._load = false;
+      return selectedIndex;
     },
 
     /**
@@ -244,9 +259,8 @@
      * Sync the markup with the hidden select
      */
     update: function() {
-      this.$elem.find('select').remove();
-      this.$select = $('<select />');
-      this._createSelect();
+      this.$elem.find('select').empty();
+      this._updateSelect();
     },
 
     /**
@@ -321,15 +335,21 @@
    * Simple jQuery API for Gumi
    */
   $.fn.gumi = function(options) {
-    var args = arguments;
+    var args = arguments,
+        that = this;
 
-    return this.each(function() {
+    return this.each(function(index) {
       // Tries to get the instance of gumi that is referenced by the node
       var gumi = $.data(this, 'gumi');
 
       // If there's no gumi instance, assume we're initializing
       if (!gumi) {
         $.data(this, 'gumi', new Gumi(this, options));
+
+        // Broadcast a "we're finished loading" event
+        if (index === that.length - 1) {
+          $(this).trigger('ready.Gumi');
+        }
       } else {
         // Otherwise, access our public API (if viable)
         if (typeof options === 'string' &&
