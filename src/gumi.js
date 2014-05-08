@@ -72,7 +72,7 @@
       var that = this;
 
       // Handle using a button that exists (or use our default)
-      // and create the structure our button label layout
+      // and create the structure of our button label layout
       var $button = this.$elem.find('button'),
           $label = $('<span><em><em></span>');
 
