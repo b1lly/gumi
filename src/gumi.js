@@ -202,6 +202,7 @@
         // to avoid having multiple dropdowns open at a time
         that._resetDropdowns(that.$elem);
 
+        // Handle the user clicking the 'cancel' icon
         if ($(e.target).hasClass('js-gumi-cancel')) {
           that.options.onCancel.call(that);
           return;
