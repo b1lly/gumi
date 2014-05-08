@@ -4,6 +4,10 @@
  * GitHub: http://github.com/b1lly/gumi
  */
 
+.gumi-wrap {
+  position: relative;
+}
+
 .gumi-wrap ul {
   display: none;
 }
