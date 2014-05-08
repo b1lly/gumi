@@ -1,8 +1,10 @@
-.gumi {
-  display: inline-block;
-}
+/**
+ * Gumi v1.1.0
+ * Usage: http://b1lly.github.io/gumi
+ * GitHub: http://github.com/b1lly/gumi
+ */
 
-.gumi ul {
+.gumi-wrap ul {
   display: none;
 }
 

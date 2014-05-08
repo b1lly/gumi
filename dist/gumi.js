@@ -1,5 +1,5 @@
 /**
- * Gumi v1.0.1
+ * Gumi v1.1.0
  * Usage: http://b1lly.github.io/gumi
  * GitHub: http://github.com/b1lly/gumi
  */
@@ -11,7 +11,10 @@
     optionDisabledClass: 'gumi-option-disabled',
     dropdownClass: 'gumi-dropdown-default',
     onChange: function() {},
-    onOpen: function() {}
+    onOpen: function() {},
+    onCancel: function() {
+      this.reset();
+    }
   };
 
   /**
@@ -55,6 +58,7 @@
      * Initialize the Gumi selectbox
      */
     _init: function() {
+      this._createButton();
       this._createSelect();
       this._createDropdown();
       this._bindDropdown();
@@ -62,27 +66,47 @@
     },
 
     /**
-     * Creates a hidden "<select>" based on
-     * the list items from the ul jQuery selector
+     * Handle creating our button
      */
-    _createSelect: function() {
-      var that = this,
-          selectedIndex;
+    _createButton: function() {
+      var that = this;
 
       // Handle using a button that exists
-      var $button = this.$elem.find('button');
+      var $button = this.$elem.find('button'),
+          $label = $('<span><em><em></span>');
+
       if ($button.length) {
         this.$button = $button;
       }
 
+      // Show the arrow icon on the label by default, unles otherwise specified
+      if (!this.$button.attr('data-arrow-icn') ||
+          this.$button.data('arrow-icn') === true) {
+        $label.append('<i class="icn arrow-down">&nbsp;</i>');
+      }
+
+      // Only show the close icon if specified
+      // The binding get's handled in the '_bindDropdown()' method
+      if (this.$button.data('cancel-icn') &&
+          this.selectedIndex != this._initialSelected) {
+        $label.append('<i class="icn cancel-icn js-gumi-cancel">&nbsp;</i>');
+      }
+
+      this.$button.html($('<div>').append($label).html());
+    },
+
+    /**
+     * Creates a hidden "<select>" based on
+     * the list items from the ul jQuery selector
+     */
+    _createSelect: function() {
       // Adds the properties and options to our select
       // and get the selectedIndex from the option parsing
-      selectedIndex = this._updateSelect();
+      this._updateSelect();
 
       // Attach our native select to the DOM
       this.$elem.append(this.$select);
 
-      this.initialSelected = selectedIndex;
       this._load = false;
     },
 
@@ -135,6 +159,9 @@
           .appendTo(that.$select);
       });
 
+      // Reset the initial selected
+      this._initialSelected = selectedIndex;
+
       // Set the default option
       this.setSelectedOption(selectedIndex);
 
@@ -173,6 +200,11 @@
         // We want to reset all other dropdowns on the page
         // to avoid having multiple dropdowns open at a time
         that._resetDropdowns(that.$elem);
+
+        if ($(e.target).hasClass('js-gumi-cancel')) {
+          that.options.onCancel.call(that);
+          return;
+        }
 
         // Handles clicking the button toggling
         that.$button.toggleClass(that.options.buttonSelectedClass);
@@ -283,6 +315,7 @@
     setSelectedOption: function(opt_index) {
       opt_index = opt_index || 0;
 
+      var label;
       var $option = this.$select.find('option').eq(opt_index);
 
       this.selectedIndex = opt_index;
@@ -295,7 +328,7 @@
 
       if (this._load === false ||
           (this._load === true && !this.$button.data('default-value'))) {
-        this.$button.html('<span><em>' + this.selectedLabel + '</em><i class="icn arrow-down">&nbsp;</i></span>');
+        this.$button.find('span em').text(this.selectedLabel);
 
         // Trigger our custom callback
         this.options.onChange.call(this.$select);
