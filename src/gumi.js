@@ -66,12 +66,13 @@
     },
 
     /**
-     * Handle creating our button
+     * Handle creating our button based on a variety of cases
      */
     _createButton: function() {
       var that = this;
 
-      // Handle using a button that exists
+      // Handle using a button that exists (or use our default)
+      // and create the structure our button label layout
       var $button = this.$elem.find('button'),
           $label = $('<span><em><em></span>');
 
@@ -79,7 +80,7 @@
         this.$button = $button;
       }
 
-      // Show the arrow icon on the label by default, unles otherwise specified
+      // Show the arrow icon on the label by default, unless otherwise specified
       if (!this.$button.attr('data-arrow-icn') ||
           this.$button.data('arrow-icn') === true) {
         $label.append('<i class="icn arrow-down">&nbsp;</i>');
@@ -159,7 +160,7 @@
           .appendTo(that.$select);
       });
 
-      // Reset the initial selected
+      // Set the initial selected
       this._initialSelected = selectedIndex;
 
       // Set the default option
