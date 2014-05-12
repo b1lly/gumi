@@ -72,7 +72,7 @@
       var that = this;
 
       // Handle using a button that exists (or use our default)
-      // and create the structure our button label layout
+      // and create the structure of our button label layout
       var $button = this.$elem.find('button'),
           $label = $('<span><em><em></span>');
 
@@ -300,12 +300,13 @@
     /**
      * Set the selected option based on it's value
      * @param {string|number|boolean} value The value of the option to look for in our list
+     * @param {boolean} opt_noEvent True will not fire an event on the select
      */
-    setSelected: function(value) {
+    setSelected: function(value, opt_noEvent) {
       var $option = this.$select.find('option[value="' + value + '"]');
 
       if ($option.length) {
-        this.setSelectedOption($option.index());
+        this.setSelectedOption($option.index(), opt_noEvent);
       }
     },
 
@@ -313,8 +314,9 @@
      * Sets the selected state to the native select box
      * based on the index. Also updates the instance and the label on the button
      * @param {number} opt_index Index of the select option to select (defaults 0)
+     * @param {boolean} opt_noEvent True will not fire an event on the select
      */
-    setSelectedOption: function(opt_index) {
+    setSelectedOption: function(opt_index, opt_noEvent) {
       opt_index = opt_index || 0;
 
       var label;
@@ -324,9 +326,11 @@
       this.selectedLabel = this.$dropdown.eq(opt_index).data('label') || $option.text();
       this.selectedValue = $option.val();
 
-      $option
-        .prop('selected', true)
-        .trigger('change');
+      $option.prop('selected', true)
+
+      if (!opt_noEvent) {
+        $option.trigger('change');
+      }
 
       if (this._load === false ||
           (this._load === true && !this.$button.data('default-value'))) {
