@@ -6,6 +6,7 @@
 
 .gumi-wrap {
   position: relative;
+  display: inline-block;
 }
 
 .gumi-wrap ul {
