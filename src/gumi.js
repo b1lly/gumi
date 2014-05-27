@@ -93,7 +93,7 @@
         $label.append('<i class="icn cancel-icn js-gumi-cancel">&nbsp;</i>');
       }
 
-      // Only update the button label on create if the option isn't not
+      // Only update the button label on create if the option isn't
       // being forced to remain the same (to avoid FOUC)
       if (!this.$button.data('default-value')) {
         this.$button.html($('<div>').append($label).html());
