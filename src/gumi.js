@@ -148,9 +148,7 @@
         }
 
         // Handle custom styling for disabled class
-        if ($self.data('disabled') === true) {
-          $self.addClass(that.options.optionDisabledClass);
-        }
+        $self.toggleClass(that.options.optionDisabledClass, $self.data('disabled'));
 
         // Only show options that are selectable
         if ($self.data('selectable') === false) {
@@ -168,7 +166,7 @@
       this._initialSelected = selectedIndex;
 
       // Set the default option
-      this.setSelectedOption(selectedIndex);
+      this.setSelectedOption(selectedIndex, true);
 
       return selectedIndex;
     },
@@ -334,14 +332,12 @@
 
       if (!opt_noEvent) {
         $option.trigger('change');
+        this.options.onChange.call(this.$select);
       }
 
       if (this._load === false ||
           (this._load === true && !this.$button.data('default-value'))) {
         this.$button.find('span em').text(this.selectedLabel);
-
-        // Trigger our custom callback
-        this.options.onChange.call(this.$select);
       }
     },
 
@@ -371,6 +367,13 @@
      */
     reset: function() {
       this.setSelectedOption(this._initialSelected);
+    },
+
+    /**
+     * Returns selected value
+     */
+    val: function() {
+      return this.selectedValue;
     }
   };
 
