@@ -8,6 +8,7 @@
   var defaults = {
     buttonClass: 'gumi-btn-default',
     buttonSelectedClass: 'gumi-btn-selected',
+    buttonDisabledClass: 'gumi-btn-disabled',
     optionDisabledClass: 'gumi-option-disabled',
     dropdownClass: 'gumi-dropdown-default',
     onChange: function() {},
@@ -98,6 +99,18 @@
       if (!this.$button.data('default-value')) {
         this.$button.html($('<div>').append($label).html());
       }
+
+      // Updates the state of the button
+      this._updateButton();
+    },
+
+    /**
+     * Convienience method to update the button styling based on
+     * potential attributes changing
+     */
+    _updateButton: function() {
+      // Apply custom disabled styling to the button if necessary
+      this.$button.toggleClass(this.options.buttonDisabledClass, this.$button.data('disabled'));
     },
 
     /**
@@ -204,6 +217,11 @@
         // to avoid having multiple dropdowns open at a time
         that._resetDropdowns(that.$elem);
 
+        // A disabled button should do nothing
+        if ($(this).data('disabled')) {
+          return;
+        }
+
         // Handle the user clicking the 'cancel' icon
         if ($(e.target).hasClass('js-gumi-cancel')) {
           that.options.onCancel.call(that);
@@ -297,6 +315,7 @@
     update: function() {
       this.$elem.find('select').empty();
       this._updateSelect();
+      this._updateButton();
     },
 
     /**
@@ -328,14 +347,16 @@
       this.selectedLabel = this.$dropdown.eq(opt_index).data('label') || $option.text();
       this.selectedValue = $option.val();
 
-      $option.prop('selected', true)
+      $option.prop('selected', true);
 
       if (!opt_noEvent) {
         $option.trigger('change');
         this.options.onChange.call(this.$select);
       }
 
-      if (this._load === false ||
+      // Only deal with no change when it's NOT on the initial loading event.
+      // Also, during load, if it has a default value set, don't update the text.
+      if ((this._load === false && this.$button.data('no-change') !== true) ||
           (this._load === true && !this.$button.data('default-value'))) {
         this.$button.find('span em').text(this.selectedLabel);
       }
