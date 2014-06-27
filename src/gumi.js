@@ -110,7 +110,7 @@
      */
     _updateButton: function() {
       // Apply custom disabled styling to the button if necessary
-      this.$button.toggleClass(this.options.buttonDisabledClass, this.$button.data('disabled'));
+      this.$button.toggleClass(this.options.buttonDisabledClass, this.$button.data('disabled') === true);
     },
 
     /**
@@ -161,7 +161,7 @@
         }
 
         // Handle custom styling for disabled class
-        $self.toggleClass(that.options.optionDisabledClass, $self.data('disabled'));
+        $self.toggleClass(that.options.optionDisabledClass, $self.data('disabled') === true);
 
         // Only show options that are selectable
         if ($self.data('selectable') === false) {
