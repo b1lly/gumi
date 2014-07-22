@@ -11,6 +11,7 @@
     buttonDisabledClass: 'gumi-btn-disabled',
     optionDisabledClass: 'gumi-option-disabled',
     dropdownClass: 'gumi-dropdown-default',
+    buttonTextOnly: true,
     onChange: function() {},
     onOpen: function() {},
     onCancel: function() {
@@ -344,7 +345,8 @@
       var $option = this.$select.find('option').eq(opt_index);
 
       this.selectedIndex = opt_index;
-      this.selectedLabel = this.$dropdown.eq(opt_index).data('label') || $option.text();
+      this.selectedLabel = this.$dropdown.eq(opt_index).data('label') ||
+                           (this.options.buttonTextOnly ? $option.text() : $option.html());
       this.selectedValue = $option.val();
 
       $option.prop('selected', true);
@@ -358,7 +360,7 @@
       // Also, during load, if it has a default value set, don't update the text.
       if ((this._load === false && this.$button.data('no-change') !== true) ||
           (this._load === true && !this.$button.data('default-value'))) {
-        this.$button.find('span em').text(this.selectedLabel);
+        this.$button.find('span em').html(this.selectedLabel);
       }
     },
 
