@@ -167,6 +167,8 @@
         // Only show options that are selectable
         if ($self.data('selectable') === false) {
           $self.hide();
+        } else {
+          $self.show();
         }
 
         $('<option />')
