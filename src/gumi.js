@@ -23,27 +23,26 @@
    * @constructor
    */
   var Gumi = function(elem, options) {
-    this.elem = elem;
-    this.$elem = $(elem);
-    this.$elem.addClass('gumi-wrap');
+    this.options = $.extend({}, defaults, options);
+    this._load = true;
+    this.fromNativeSelect = false;
 
-    // Reference to the button that shows the current selected option
-    // and also handles the click event to show the dropdown
-    this.$button = $('<button />');
+    // Check if elem is select, otherwise create container
+    this._createElement(elem);
+
+    // Uses the provided button or creates one from scratch
+    this._createButton();
 
     // Contains a reference to the dropdown list of options
-    this.$dropdown = this.$elem.find('ul').hide();
+    this._createDropdown();
 
     // Native form select element that gumi links too
-    this.$select = $('<select />');
+    this._createSelect();
 
     this.selectedIndex = 0;
     this.selectedLabel = undefined;
     this.selectedValue = undefined;
 
-    this.options = $.extend({}, defaults, options);
-
-    this._load = true;
     this._defaults = defaults;
     this._initialSelected = undefined;
 
@@ -60,49 +59,68 @@
      * Initialize the Gumi selectbox
      */
     _init: function() {
-      this._createButton();
-      this._createSelect();
-      this._createDropdown();
       this._bindDropdown();
       this._bindSelectOption();
+      this._load = false;
+    },
+
+    _createElement: function(elem) {
+      var $elem = $(elem);
+      if ($elem.is('select')) {
+        this.fromNativeSelect = true;
+        this.$select = $elem;
+        this.$elem = $('<div/>');
+        this.elem = $elem[0];
+        this.$elem
+          .data('gumi', this) // Put gumi instance on elem
+          .insertBefore(this.$select);
+      } else {
+        this.$elem = $elem;
+        this.elem = elem;
+      }
+      this.$elem.addClass('gumi-wrap');
     },
 
     /**
      * Handle creating our button based on a variety of cases
      */
     _createButton: function() {
-      var that = this;
-
       // Handle using a button that exists (or use our default)
       // and create the structure of our button label layout
-      var $button = this.$elem.find('button'),
-          $label = $('<span><em><em></span>');
+      this.$button = this.$elem.find('button');
+      var $label = $('<span><em></em></span>');
 
-      if ($button.length) {
-        this.$button = $button;
+      if (!this.$button.length) {
+        this.$button = $('<button />');
       }
+
+      this.$button
+        .addClass('gumi-btn')
+        .addClass(this.options.buttonClass);
 
       // Show the arrow icon on the label by default, unless otherwise specified
       if (!this.$button.attr('data-arrow-icn') ||
-          this.$button.data('arrow-icn') === true) {
+        this.$button.data('arrow-icn') === true) {
         $label.append('<i class="icn arrow-down">&nbsp;</i>');
       }
 
-      // Only show the close icon if specified
-      // The binding get's handled in the '_bindDropdown()' method
-      if (this.$button.data('cancel-icn') &&
-          this.selectedIndex != this._initialSelected) {
-        $label.append('<i class="icn cancel-icn js-gumi-cancel">&nbsp;</i>');
-      }
+      if (this.fromNativeSelect) {
+        this.$button.append($label);
+      } else {
+        // Only show the close icon if specified
+        // The binding get's handled in the '_bindDropdown()' method
+        if (this.$button.data('cancel-icn') &&
+            this.selectedIndex != this._initialSelected) {
+          $label.append('<i class="icn cancel-icn js-gumi-cancel">&nbsp;</i>');
+        }
 
-      // Only update the button label on create if the option isn't
-      // being forced to remain the same (to avoid FOUC)
-      if (!this.$button.data('default-value')) {
-        this.$button.html($('<div>').append($label).html());
+        // Only update the button label on create if the option isn't
+        // being forced to remain the same (to avoid FOUC)
+        if (!this.$button.data('default-value')) {
+          this.$button.empty().append($label);
+        }
+        this._updateButton();
       }
-
-      // Updates the state of the button
-      this._updateButton();
     },
 
     /**
@@ -119,26 +137,30 @@
      * the list items from the ul jQuery selector
      */
     _createSelect: function() {
-      // Adds the properties and options to our select
-      // and get the selectedIndex from the option parsing
-      this._updateSelect();
+      if (this.fromNativeSelect) {
+        this.$select.hide();
+      } else {
+        // Adds the properties and options to our select
+        // and get the selectedIndex from the option parsing
+        this._buildSelect();
+      }
 
       // Attach our native select to the DOM
       this.$elem.append(this.$select);
-
-      this._load = false;
     },
 
     /**
      * Updates the "<select>" properties, options and values
      * based on the current list of options from the "<ul>"
      */
-    _updateSelect: function() {
+    _buildSelect: function() {
       var that = this,
           selectedIndex = 0;
 
-      // Copy some attributes over to our select
+      this.$select = $('<select/>');
+
       this.$select
+        .data('gumi', this) // Put gumi instance on select
         .addClass(this.options.dropdownClass)
         .addClass(this.$button.data('class'))
         .attr('name', this.$button.data('name'))
@@ -165,11 +187,7 @@
         $self.toggleClass(that.options.optionDisabledClass, $self.data('disabled') === true);
 
         // Only show options that are selectable
-        if ($self.data('selectable') === false) {
-          $self.hide();
-        } else {
-          $self.show();
-        }
+        $self.toggle($self.data('selectable') !== false);
 
         $('<option />')
           .val(value)
@@ -193,17 +211,46 @@
      * custom classes to both the button and the dropdown
      */
     _createDropdown: function() {
-      this.$button
-        .addClass('gumi-btn')
-        .addClass(this.options.buttonClass);
+      if (this.fromNativeSelect) {
+        this._buildDropdown();
+      } else {
+        this.$dropdown = this.$elem.find('ul');
+      }
 
-      // Insert the button before the dropdown
+      // Ensure the button before the dropdown
       this.$elem.prepend(this.$button);
 
       // Styling should hide the dropdown by default
       this.$dropdown
+        .hide()
         .addClass('gumi-dropdown')
         .addClass(this.options.dropdownClass);
+    },
+
+    /**
+     * Build a list from select element
+     */
+    _buildDropdown: function() {
+      var self = this;
+
+      this.$dropdown = $('<ul/>');
+
+      this.$select.find('option').each(function() {
+        var $option = $(this),
+            $li = $('<li/>');
+
+        $li.html($option.text());
+        self.$dropdown.append($li);
+
+        if ($option.prop('disabled')) {
+          $li.hide();
+          // Selected and disabled is default value
+          if ($option.prop('selected')) {
+            self.$button.find('span em').html($option.text());
+          }
+        }
+      });
+      this.$elem.append(this.$dropdown);
     },
 
     /**
@@ -260,7 +307,7 @@
         e.stopPropagation();
 
         if (!$self.data('disabled')) {
-          that.setSelectedOption($(this).index());
+          that.setSelectedOption($self.index());
           that.closeDropdown();
         }
       });
@@ -316,8 +363,6 @@
      * Sync the markup with the hidden select
      */
     update: function() {
-      this.$elem.find('select').empty();
-      this._updateSelect();
       this._updateButton();
     },
 
